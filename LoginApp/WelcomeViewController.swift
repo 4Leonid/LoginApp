@@ -16,11 +16,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let userName = userName {
-            welcomeUserLabel.text = "Welcome, \(userName)!"
-        }
-        
-        //welcomeUserLabel.text = "Welcome, \(userName ?? "")!"
+        welcomeUserLabel.text = "Welcome, \(userName ?? "")!"
         
         let coloreOne = UIColor(red: 0.2, green: 0.6, blue: 0.3, alpha: 1.0).cgColor
         let coloreTwo = UIColor(red: 0.4, green: 0.2, blue: 0.6, alpha: 1.0).cgColor
