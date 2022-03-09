@@ -11,23 +11,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var userTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if userTextField.text == "Leo" && passwordTextField.text == "1" {
+        if userTextField.text == "Leo", passwordTextField.text == "1" {
             guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
             welcomeVC.userName = userTextField.text
         } else {
-            let ac = UIAlertController(title: "Invalid login or password",
-                                       message: "Please, enter correct login and password",
-                                       preferredStyle: .alert)
-            let action = UIAlertAction(title: "OK", style: .default)
+            showAlert(title: "Wrong login or password",
+                      message: "Please put correct login",
+                      actionTitle: "OK")
             passwordTextField.text = ""
-            ac.addAction(action)
-            present(ac, animated: true)
         }
     }
     
@@ -37,27 +30,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
-        guard let _ = segue.source as? WelcomeViewController else { return }
+        guard segue.source is WelcomeViewController else { return }
         userTextField.text = ""
         passwordTextField.text = ""
-        
     }
     
     @IBAction func fogotUsernameButtonTapped() {
-        let ac = UIAlertController(title: "Oops!",
-                                   message: "Your name is Leo",
-                                   preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        ac.addAction(action)
-        present(ac, animated: true)
+        showAlert(title: "Oops", message: "Your name is Leo", actionTitle: "OK")
     }
     
     @IBAction func fogotPasswordButtonTapped() {
-        let ac = UIAlertController(title: "Oops!",
-                                   message: "Your password is 1",
+        showAlert(title: "Oops", message: "Your password is 1", actionTitle: "OK")
+    }
+    
+    private func showAlert(title: String, message: String, actionTitle: String) {
+        let ac = UIAlertController(title: title,
+                                   message: message,
                                    preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default)
-        ac.addAction(action)
+        ac.addAction(.init(title: actionTitle, style: .default))
         present(ac, animated: true)
     }
     
@@ -66,9 +56,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
              passwordTextField.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
-            if let vc =  WelcomeViewController() as? WelcomeViewController {
-            navigationController?.pushViewController(vc, animated: true)
-            }
+            performSegue(withIdentifier: "welcomeSegue", sender: nil)
         }
         return true
     }
