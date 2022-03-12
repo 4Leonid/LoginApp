@@ -7,58 +7,72 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
     
+    //MARK: - IB Outlets
     @IBOutlet var userTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
+    
+    //MARK: - Private properties
+    private let userName = "Leo"
+    private let password = "1"
 
+    //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if userTextField.text == "Leo", passwordTextField.text == "1" {
-            guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-            welcomeVC.userName = userTextField.text
-        } else {
-            showAlert(title: "Wrong login or password",
-                      message: "Please put correct login",
-                      actionTitle: "OK")
-            passwordTextField.text = ""
-        }
+        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
+        welcomeVC.userName = userName
     }
     
+    //MARK: IBActions
+    @IBAction func loginButtonPressed() {
+        guard userTextField.text == userName, passwordTextField.text == password else {
+            showAlert(
+                title: "Invalid login or password",
+                message: "Please, enter correct login and password",
+                textField: passwordTextField
+            )
+            return
+        }
+        performSegue(withIdentifier: "welcomeSegue", sender: nil)
+    }
+    
+    @IBAction func showAuthorizationData(_ sender: UIButton) {
+        sender.tag == 0
+        ? showAlert(title: "Oops!", message: "Your name is \(userName) 🥱")
+        : showAlert(title: "Oops!", message: "Your password is \(password) 🥱")
+    }
+    
+    @IBAction func unwind(for segue: UIStoryboardSegue) {
+        userTextField.text = ""
+        passwordTextField.text = ""
+    }
+}
+
+//MARK: - Alert Controller
+extension LoginViewController {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            textField?.text = ""
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+}
+
+//MARK: -Keyboard
+extension LoginViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
     }
     
-    @IBAction func unwind(for segue: UIStoryboardSegue) {
-        guard segue.source is WelcomeViewController else { return }
-        userTextField.text = ""
-        passwordTextField.text = ""
-    }
-    
-    @IBAction func fogotUsernameButtonTapped() {
-        showAlert(title: "Oops", message: "Your name is Leo", actionTitle: "OK")
-    }
-    
-    @IBAction func fogotPasswordButtonTapped() {
-        showAlert(title: "Oops", message: "Your password is 1", actionTitle: "OK")
-    }
-    
-    private func showAlert(title: String, message: String, actionTitle: String) {
-        let ac = UIAlertController(title: title,
-                                   message: message,
-                                   preferredStyle: .alert)
-        ac.addAction(.init(title: actionTitle, style: .default))
-        present(ac, animated: true)
-    }
-    
-     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == userTextField {
-             passwordTextField.becomeFirstResponder()
-        } else {
-            textField.resignFirstResponder()
-            performSegue(withIdentifier: "welcomeSegue", sender: nil)
-        }
-        return true
-    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+       if textField == userTextField {
+            passwordTextField.becomeFirstResponder()
+       } else {
+           loginButtonPressed()
+       }
+       return true
+   }
 }
-
