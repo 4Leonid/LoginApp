@@ -21,8 +21,6 @@ struct User {
             work: "Programmer",
             age: 37))
     }
-    
-    //static let standart: User = User(login: "Leo", password: "1", persons: Person(firstName: "Leo", secondName: "Turko", work: "Programmer", age: 37))
 }
 
 struct Person {
