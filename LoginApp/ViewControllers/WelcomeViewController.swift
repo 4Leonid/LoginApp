@@ -9,14 +9,17 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     
+    //MARK: - IB Outlets
     @IBOutlet var welcomeUserLabel: UILabel!
     
-    var userName = ""
+    //MARK: - Public properties
+    var user = User.getStandartUser()
     
+    //MARK: - Private properties
     private let coloreOne = UIColor(
-        red: 0.2,
-        green: 0.6,
-        blue: 0.3,
+        red: 0.8,
+        green: 0.8,
+        blue: 0.8,
         alpha: 1
     )
     
@@ -27,10 +30,11 @@ class WelcomeViewController: UIViewController {
         alpha: 1
     )
     
+    //MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addGradientColore(topColore: coloreOne, bottomColore: coloreTwo)
-        welcomeUserLabel.text = "Welcome, \(userName)!"
+        view.addGradientColore(topColore: coloreTwo, bottomColore: coloreOne)
+        welcomeUserLabel.text = "Welcome, " + user.persons.firstName + " " + user.persons.secondName + "!"
     }
 }
 
