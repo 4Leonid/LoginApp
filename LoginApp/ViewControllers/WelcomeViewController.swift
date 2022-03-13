@@ -13,7 +13,7 @@ class WelcomeViewController: UIViewController {
     @IBOutlet var welcomeUserLabel: UILabel!
     
     //MARK: - Public properties
-    var user = User.getStandartUser()
+    var user: Person?
     
     //MARK: - Private properties
     private let coloreOne = UIColor(
@@ -34,7 +34,8 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addGradientColore(topColore: coloreTwo, bottomColore: coloreOne)
-        welcomeUserLabel.text = "Welcome, " + user.persons.firstName + " " + user.persons.secondName + "!"
+        guard let firstName = user?.firstName, let secondName = user?.secondName else { return }
+        welcomeUserLabel.text = "Welcome, " + firstName + " " + secondName + "!"
     }
 }
 

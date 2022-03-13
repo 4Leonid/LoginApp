@@ -22,12 +22,12 @@ class LoginViewController: UIViewController {
         
         for viewController in tabBarController.children {
             if let welcomeVC = viewController as? WelcomeViewController {
-                welcomeVC.user = user
+                welcomeVC.user = user.persons
             } else if let navigationVC = viewController as? UINavigationController {
                 guard let aboutUserVC = navigationVC.topViewController as? AboutUserViewController else { return }
                 aboutUserVC.title = user.persons.firstName + " " + user.persons.secondName
-                aboutUserVC.work = user.persons.work
-                aboutUserVC.age = user.persons.age
+                aboutUserVC.user = user.persons
+                aboutUserVC.user = user.persons
             }
         }
     }
