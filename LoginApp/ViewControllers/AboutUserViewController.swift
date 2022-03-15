@@ -14,20 +14,21 @@ class AboutUserViewController: UIViewController {
     @IBOutlet var ageLabel: UILabel!
     
     //MARK: - Public properties
-    var user: Person?
+    var person: Person!
 
     //MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let work = user?.work, let age = user?.age else { return }
-        workLabel.text = "My work is \(work)"
-        ageLabel.text = "My age is \(age)"
+//        guard let work = user?.work, let age = user?.age else { return }
+//        guard let name = user?.firstName, let sirname = user?.secondName else { return }
+        title = person.fullName
+        workLabel.text = "My work is \(person.work)"
+        ageLabel.text = "My age is \(person.age)"
     }
     
-    //MARK: Navigation
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let fotoVC = segue.destination as? FotoViewController else { return }
-        guard let imageName = user?.imageName, let image = UIImage(named: imageName) else { return }
-        fotoVC.image = image
+        fotoVC.person = person
     }
 }

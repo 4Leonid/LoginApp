@@ -10,16 +10,20 @@ import UIKit
 class FotoViewController: UIViewController {
     
     //MARK: - IB Outlets
-    @IBOutlet var userImage: UIImageView!
+    @IBOutlet var userImage: UIImageView! {
+        didSet {
+            configureImage(userImage)
+        }
+    }
     
     //MARK: - Public properties
-    var image: UIImage?
+    var person: Person!
     
     //MARK: - Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        userImage.image = image
-        configureImage(userImage)
+        userImage.image = UIImage(named: person.imageName)
+//        configureImage(userImage)
     }
     
     //MARK: - Private Methods
@@ -27,6 +31,5 @@ class FotoViewController: UIViewController {
         image.layer.cornerRadius = userImage.frame.width / 2
         image.layer.borderWidth = 2
         image.layer.borderColor = UIColor.blue.cgColor
-        
     }
 }

@@ -14,22 +14,29 @@ class LoginViewController: UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     
     //MARK: - Public properties
-    let user = User.getStandartUser()
+    let user = User.getUser()
 
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let tabBarController = segue.destination as? UITabBarController else { return }
+        guard let viewControllers = tabBarController.viewControllers else { return }
         
-        for viewController in tabBarController.children {
-            if let welcomeVC = viewController as? WelcomeViewController {
-                welcomeVC.user = user.persons
-            } else if let navigationVC = viewController as? UINavigationController {
+        viewControllers.forEach {
+            if let welcomeVC = $0 as? WelcomeViewController {
+                welcomeVC.person = user.person
+            } else if let navigationVC = $0 as? UINavigationController {
                 guard let aboutUserVC = navigationVC.topViewController as? AboutUserViewController else { return }
-                aboutUserVC.title = user.persons.firstName + " " + user.persons.secondName
-                aboutUserVC.user = user.persons
-                aboutUserVC.user = user.persons
+                aboutUserVC.person = user.person
             }
         }
+        //        for viewController in viewControllers {
+        //            if let welcomeVC = viewController as? WelcomeViewController {
+        //                welcomeVC.user = user.person
+        //            } else if let navigationVC = viewController as? UINavigationController {
+        //                guard let aboutUserVC = navigationVC.topViewController as? AboutUserViewController else { return }
+        //                aboutUserVC.user = user.person
+        //            }
+        //        }
     }
     
     //MARK: IBActions

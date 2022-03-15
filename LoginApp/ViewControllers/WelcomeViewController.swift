@@ -13,7 +13,7 @@ class WelcomeViewController: UIViewController {
     @IBOutlet var welcomeUserLabel: UILabel!
     
     //MARK: - Public properties
-    var user: Person?
+    var person: Person!
     
     //MARK: - Private properties
     private let coloreOne = UIColor(
@@ -34,20 +34,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addGradientColore(topColore: coloreTwo, bottomColore: coloreOne)
-        guard let firstName = user?.firstName, let secondName = user?.secondName else { return }
-        welcomeUserLabel.text = "Welcome, " + firstName + " " + secondName + "!"
+        welcomeUserLabel.text = "Welcome, \(person.fullName)!"
     }
 }
 
-//MARK: - Set background color
-extension UIView {
-    func addGradientColore(topColore: UIColor, bottomColore: UIColor) {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = bounds
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.colors = [topColore.cgColor, bottomColore.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        layer.insertSublayer(gradientLayer, at: 0)
-    }
-}
