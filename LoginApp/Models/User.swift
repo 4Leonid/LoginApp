@@ -6,20 +6,18 @@
 //
 
 import Foundation
-import UIKit
 
 struct User {
     let login: String
     let password: String
-    var persons: Person
+    let person: Person
     
-    static func getStandartUser() -> User {
-            User(login: "Leo", password: "1", persons: Person(
-            firstName: "Leonid",
-            secondName: "Turko",
-            imageName: "Swift",
-            work: "Programmer",
-            age: 37))
+    static func getUser() -> User {
+        User(
+            login: "Leo",
+            password: "1",
+            person: .getPerson()
+        )
     }
 }
 
@@ -30,4 +28,18 @@ struct Person {
     let work: String
     let age: Int
     
+    var fullName: String {
+        "\(firstName) \(secondName)"
+    }
+    
+    static func getPerson() -> Person {
+        Person(
+            firstName: "Leonid",
+            secondName: "Turko",
+            imageName: "Swift",
+            work: "Programmer",
+            age: 37
+        )
+    }
 }
+
